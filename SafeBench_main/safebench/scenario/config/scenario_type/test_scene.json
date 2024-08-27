@@ -1,0 +1,14 @@
+[
+  {
+    "data_id": 0,
+    "scenario_folder": "test_scene",
+    "scenario_id": 1,
+    "route_id": 4,
+    "risk_level": null,
+    "parameters": [
+      2.5,
+      16,
+      40
+    ]
+  }
+]

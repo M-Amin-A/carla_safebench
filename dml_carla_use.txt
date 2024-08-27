@@ -1,0 +1,66 @@
+vscode open remote window:
+connect to ssh host:
+sakura
+
+linux sudo password:
+danger
+
+
+---------------------------------
+
+create tmux session:
+tmux new-session -t session_name
+
+list sessions:
+tmux list-sessions
+
+enter tmux:
+tmux a -t session_name
+
+tmux a 
+ctrl+b s
+
+exit tmux session:
+ctrl+b d
+
+terminate session:
+ctrl+d
+
+scroll terminal:
+ctrl+b [
+
+
+-------------------------------
+
+run venv:
+conda activate safebench
+
+exit venv:
+conda deactivate
+
+
+--------------------------------
+
+mount carla:
+sudo mount /dev/nvme0n1p2 /media/carla
+
+
+in SafeBnech-main folder
+
+run carla:
+./CARLA_0.9.13_safebench/CarlaUE4.sh -prefernvidia -RenderOffScreen -carla-port=2000
+
+
+run safebench:
+DISPLAY=:8 python scripts/run.py --agent_cfg basic.yaml --scenario random.yaml --mode eval --save_video --num_scenario 4 
+(try deleting previous log if not runs)
+
+run carlaviz:
+sh ./scripts/start_carlaviz.sh
+
+
+see nvidia status:
+nvidia-msi
+
+terminate gpu process:
+pkill -f [name of process (after last slash)]
