@@ -1,0 +1,59 @@
+carla_runner config:
+parser.add_argument('--exp_name', type=str, default='exp')
+parser.add_argument('--output_dir', type=str, default='log')
+parser.add_argument('--ROOT_DIR', type=str, default=osp.abspath(osp.dirname(osp.dirname(osp.realpath(__file__)))))
+
+parser.add_argument('--max_episode_step', type=int, default=300)
+parser.add_argument('--auto_ego', action='store_true')
+parser.add_argument('--mode', '-m', type=str, default='eval', choices=['train_agent', 'train_scenario', 'eval'])
+parser.add_argument('--agent_cfg', nargs='*', type=str, default='dummy.yaml')
+parser.add_argument('--scenario_cfg', nargs='*', type=str, default='standard.yaml')
+parser.add_argument('--continue_agent_training', '-cat', type=bool, default=False)
+parser.add_argument('--continue_scenario_training', '-cst', type=bool, default=False)
+
+parser.add_argument('--seed', '-s', type=int, default=0)
+parser.add_argument('--threads', type=int, default=4)
+parser.add_argument('--device', type=str, default='cuda:0' if torch.cuda.is_available() else 'cpu')   
+
+parser.add_argument('--num_scenario', '-ns', type=int, default=2, help='num of scenarios we run in one episode')
+parser.add_argument('--save_video', action='store_true')
+parser.add_argument('--render', type=bool, default=True)
+parser.add_argument('--frame_skip', '-fs', type=int, default=1, help='skip of frame in each step')
+parser.add_argument('--port', type=int, default=2000, help='port to communicate with carla')
+parser.add_argument('--tm_port', type=int, default=8000, help='traffic manager port')
+parser.add_argument('--fixed_delta_seconds', type=float, default=0.1)
+
+
+
+scenario config:
+
+scenario_type_dir: 'safebench/scenario/config/scenario_type'
+scenario_type: 'test_scene.json'
+scenario_category: 'planning'
+policy_type: 'test_scene'
+
+route_dir: 'safebench/scenario/scenario_data/route'
+scenario_id: null
+route_id: null
+
+ego_action_dim: 2
+ego_state_dim: 4
+ego_action_limit: 1.0
+
+model_path: ''
+save_freq: 40
+
+
+
+agent config:
+policy_type: 'dummy'
+model_path: ''
+model_id: 0
+results_folder_path: ''
+obs_type: 0
+
+train_episode: 2000
+eval_in_train_freq: 1
+save_freq: 10
+buffer_capacity: 10000
+buffer_start_training: 100
