@@ -1,13 +1,24 @@
-carla_runner: 
+run.py:
+1- handling multiple configs for agents and scenario types
+
+carla_runner:
 1- start point
-2- handling multiple agents and scenarios
+2- handling multiple agents and scenarios in one config
 3- assign carla env variables
+you can probably find useful information of environment in CarlaDataProvider
+Also the self.env attribute in this class is a VectorWrapper for environment details
 
+env_wrapper:
+a gym like wrapper carla env.
+for accessing to CarlaEnv details: self.env_list[i].get_env().env.__dict__ . full implenentation can be found in gym_carla/envs/carla_env
 
-route_scenrio:
+route_scenario:
 1- the manager of one running scenario
 2- checks whether the episode has finished
 
+
+training:
+to see saved reward results you can use tools/plot_rewards.py using generated result.pkl file
 
 for adding scenario:
 1- duplicate .yaml file in safebench/scenario/config
