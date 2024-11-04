@@ -1,6 +1,0 @@
-generate ssh key in cmd:
-ssh-keygen
-
-vscode open remote window:
-connect to ssh host:
-carla@172.27.50.186

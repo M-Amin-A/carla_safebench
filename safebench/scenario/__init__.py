@@ -30,4 +30,5 @@ SCENARIO_POLICY_LIST = {
     'od': ObjectDetection,
     'sac': SAC,
     'test_scene': DummyPolicy,
+    'dilema': DummyPolicy
 }
