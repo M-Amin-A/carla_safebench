@@ -1,0 +1,20 @@
+run venv:
+conda activate safebench
+
+exit venv:
+conda deactivate
+
+-------------------------------
+
+in SafeBnech-main folder
+
+run carla:
+../CARLA_0.9.13_safebench/CarlaUE4.sh -prefernvidia -RenderOffScreen -carla-port=2000
+
+
+run safebench:
+DISPLAY=:8 python scripts/run.py --agent_cfg basic.yaml --scenario dilema.yaml --mode eval --save_video --num_scenario 2 --seed 0
+(try deleting previous log if not runs)
+
+run carlaviz:
+sh ./scripts/start_carlaviz.sh

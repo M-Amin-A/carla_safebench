@@ -1,0 +1,122 @@
+[
+  {
+    "data_id": 0,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 4,
+    "risk_level": null,
+    "parameters": [
+      10,
+      ["walker.*", "walker.*"],
+      ["walker.*", "walker.*", "walker.*"]
+    ]
+  },
+  {
+    "data_id": 1,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 5,
+    "risk_level": null,
+    "parameters": [
+      10,
+      ["static.prop.atm"],
+      ["walker.*"]
+    ]
+  },
+  {
+    "data_id": 2,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 6,
+    "risk_level": null,
+    "parameters": [
+      10,
+      ["walker.*", "walker.*"],
+      ["static.prop.mailbox", "static.prop.mailbox"]
+    ]
+  },
+  {
+    "data_id": 3,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 7,
+    "risk_level": null,
+    "parameters": [
+      10,
+      ["walker.*", "walker.*"],
+      ["static.prop.foodcart", "static.prop.foodcart"]
+    ]
+  },
+  {
+    "data_id": 4,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 8,
+    "risk_level": null,
+    "parameters": [
+      10,
+      ["walker.*", "static.prop.trafficcone01"],
+      ["static.prop.trafficcone01", "static.prop.trafficcone01", "walker.*"]
+    ]
+  },
+  {
+    "data_id": 5,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 9,
+    "risk_level": null,
+    "parameters": [
+      10,
+      ["walker.*", "walker.*"],
+      ["walker.*", "walker.*", "walker.*"]
+    ]
+  },
+  {
+    "data_id": 6,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 10,
+    "risk_level": null,
+    "parameters": [
+      10,
+      ["walker.*", "walker.*"],
+      ["static.prop.travelcase", "walker.*"]
+    ]
+  },
+  {
+    "data_id": 7,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 11,
+    "risk_level": null,
+    "parameters": [
+      10,
+      ["walker.*", "walker.*"],
+      ["walker.*", "walker.*"]
+    ]
+  },
+  {
+    "data_id": 8,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 12,
+    "risk_level": null,
+    "parameters": [
+      10,
+      ["walker.*"],
+      []
+    ]
+  },
+  {
+    "data_id": 9,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 13,
+    "risk_level": null,
+    "parameters": [
+      10,
+      ["walker.*", "walker.*"],
+      ["static.prop.container"]
+    ]
+  }
+]

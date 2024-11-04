@@ -1,0 +1,26 @@
+[
+  {
+    "data_id": 0,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 4,
+    "risk_level": null,
+    "parameters": [
+      10,
+      ["walker.*", "walker.*"],
+      ["walker.*", "walker.*", "walker.*"]
+    ]
+  },
+  {
+    "data_id": 1,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 5,
+    "risk_level": null,
+    "parameters": [
+      10,
+      ["walker.*", "walker.*"],
+      ["walker.*", "walker.*", "walker.*"]
+    ]
+  }
+]
