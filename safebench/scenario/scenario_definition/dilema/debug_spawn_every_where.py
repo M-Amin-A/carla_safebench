@@ -1,4 +1,4 @@
-''' 
+'''
 Date: 2023-01-31 22:23:17
 LastEditTime: 2023-03-01 16:50:27
 Description:
@@ -39,7 +39,7 @@ class DynamicObjectCrossing(BasicScenario):
         self._trigger_location = config.trigger_points[0].location
 
         self._other_actor_target_velocity = 2
-        self.start_distance = 20
+        self.start_distance = 10
 
         # Total Number of attempts to relocate a vehicle before spawning
         self._number_of_attempts = 5
@@ -105,7 +105,9 @@ class DynamicObjectCrossing(BasicScenario):
 
         return transform, orientation_yaw
 
-    def find_side_shoulder(self, waypoint, direction='right'):
+    def find_side_lane(self, waypoint, direction='right'):
+        reference_yaw = waypoint.transform.rotation.yaw
+
         while True:
             wp_next = waypoint.get_right_lane() if direction == 'right' else waypoint.get_left_lane()
 
@@ -116,9 +118,36 @@ class DynamicObjectCrossing(BasicScenario):
                 # if wp_next.lane_width > 2:
                 #     waypoint = wp_next
                 break
+            # other way road
+            elif abs(wp_next.transform.rotation.yaw - reference_yaw) > 170:
+                break
             else:
                 waypoint = wp_next
         return waypoint
+
+    def get_lanes(self, waypoint):
+        reference_yaw = waypoint.transform.rotation.yaw
+
+        waypoint = self.find_side_lane(waypoint, 'right')
+        waypoints = []
+
+        while True:
+            waypoints.append(waypoint)
+            wp_next = waypoint.get_left_lane()
+
+            if wp_next is None or wp_next.lane_type == carla.LaneType.Sidewalk:
+                break
+            elif wp_next.lane_type == carla.LaneType.Shoulder:
+                # Filter Parkings considered as Shoulders
+                # if wp_next.lane_width > 2:
+                #     waypoint = wp_next
+                break
+            # other way road
+            elif abs(wp_next.transform.rotation.yaw - reference_yaw) > 170:
+                break
+            else:
+                waypoint = wp_next
+        return waypoints
 
 
     def initialize_actors(self):
@@ -126,14 +155,10 @@ class DynamicObjectCrossing(BasicScenario):
 
         lane_width = self._reference_waypoint.lane_width
 
-        right_shoulder_waypoint = self.find_side_shoulder(self._reference_waypoint, 'right')
-        left_shoulder_waypoint = self.find_side_shoulder(self._reference_waypoint, 'left')
+        lane_waypoints = self.get_lanes(self._reference_waypoint)
 
-        # transform_right, _ = self.create_transform("walker.*", right_shoulder_waypoint, _start_distance, 0, 270)
-        # transform_left, _ = self.create_transform("walker.*", left_shoulder_waypoint, _start_distance, 0, 90)
-
-        transform_right, _ = self.calculate_transform(right_shoulder_waypoint, _start_distance, lane_width / 2, 270)
-        transform_left, _ = self.calculate_transform(left_shoulder_waypoint, _start_distance, -lane_width / 2, 90)
+        transform_right, _ = self.calculate_transform(lane_waypoints[0], _start_distance, lane_width / 2, 270)
+        transform_left, _ = self.calculate_transform(lane_waypoints[-1], _start_distance, -lane_width / 2, 90)
 
         # pass results
         self.actor_type_list = ["walker.*"] + ["walker.*"]

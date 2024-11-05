@@ -11,4 +11,4 @@ Description:
     For a copy, see <https://opensource.org/licenses/MIT>
 '''
 
-from .fixed_agents_in_two_lanes import DynamicObjectCrossing
+from .multiple_fixed_humans_in_two_lanes import DynamicObjectCrossing

@@ -1,0 +1,132 @@
+[
+  {
+    "data_id": 0,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 4,
+    "risk_level": null,
+    "parameters": [
+      ["static", "walker", "car"],
+      ["static.prop.atm", "walker.*", "vehicle.nissan.patrol"],
+      [15, 10, 20],
+      [0, 1, 2]
+    ]
+  },
+  {
+    "data_id": 1,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 5,
+    "risk_level": null,
+    "parameters": [
+      ["static", "walker", "car"],
+      ["static.prop.atm", "walker.*", "vehicle.nissan.patrol"],
+      [15, 10, 20],
+      [0, 2, 1]
+    ]
+  },
+  {
+    "data_id": 2,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 6,
+    "risk_level": null,
+    "parameters": [
+      ["static", "walker"],
+      ["static.prop.atm", "walker.*"],
+      [15, 10],
+      [0, 1]
+    ]
+  },
+  {
+    "data_id": 3,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 7,
+    "risk_level": null,
+    "parameters": [
+      ["static", "walker"],
+      ["static.prop.atm", "walker.*"],
+      [15, 10],
+      [1, 0]
+    ]
+  },
+  {
+    "data_id": 4,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 8,
+    "risk_level": null,
+    "parameters": [
+      ["walker", "walker"],
+      ["walker.*", "walker.*"],
+      [15, 10],
+      [1, 0]
+    ]
+  },
+  {
+    "data_id": 5,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 9,
+    "risk_level": null,
+    "parameters": [
+      ["walker", "walker"],
+      ["walker.*", "walker.*"],
+      [10, 10],
+      [1, 0]
+    ]
+  },
+  {
+    "data_id": 6,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 10,
+    "risk_level": null,
+    "parameters": [
+      ["static", "walker"],
+      ["static.prop.atm", "walker.*"],
+      [15, 10],
+      [1, 0]
+    ]
+  },
+  {
+    "data_id": 7,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 11,
+    "risk_level": null,
+    "parameters": [
+      ["static", "walker"],
+      ["static.prop.atm", "walker.*"],
+      [15, 10],
+      [1, 0]
+    ]
+  },
+  {
+    "data_id": 8,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 12,
+    "risk_level": null,
+    "parameters": [
+      ["car", "walker"],
+      ["vehicle.nissan.patrol", "walker.*"],
+      [15, 10],
+      [1, 0]
+    ]
+  },
+  {
+    "data_id": 9,
+    "scenario_folder": "dilema",
+    "scenario_id": 1,
+    "route_id": 13,
+    "risk_level": null,
+    "parameters": [
+      ["static", "car"],
+      ["static.prop.atm", "vehicle.nissan.patrol"],
+      [15, 10],
+      [1, 0]
+    ]
+  }
+]

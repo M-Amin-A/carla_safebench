@@ -6,6 +6,11 @@ conda deactivate
 
 -------------------------------
 
+run carla:
+sudo mount /dev/nvme0n1p2 /media/carla
+
+-----------------------------
+
 in SafeBnech-main folder
 
 run carla:

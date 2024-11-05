@@ -1,4 +1,4 @@
-''' 
+'''
 Date: 2023-01-31 22:23:17
 LastEditTime: 2023-03-01 16:50:27
 Description:
@@ -12,6 +12,8 @@ Description:
 '''
 
 import math
+import random
+
 import carla
 
 from safebench.scenario.tools.scenario_operation import ScenarioOperation
@@ -31,16 +33,19 @@ class DynamicObjectCrossing(BasicScenario):
         self.ego_vehicle = ego_vehicle
         self.timeout = timeout
 
-        # parameters = [left_lane_objects, right_lane_objects]
         self.parameters = config.parameters
         self._map = CarlaDataProvider.get_map()
 
         self._reference_waypoint = self._map.get_waypoint(config.trigger_points[0].location)
         self._trigger_location = config.trigger_points[0].location
 
-        self._other_actor_target_velocity = 2
-        self.start_distance = 10
 
+        # hyperparameters
+        self._walker_velocity = 2
+        self._car_velocity = 5
+        self._offset_mean, self._offset_std = 0, 0.25
+
+        # self.start_distance = 10
         # Total Number of attempts to relocate a vehicle before spawning
         self._number_of_attempts = 5
         # Number of attempts made so far
@@ -51,7 +56,7 @@ class DynamicObjectCrossing(BasicScenario):
         # always should be set
         self.scenario_operation = ScenarioOperation()
         self.ego_max_driven_distance = 150
-        self.trigger_distance_threshold = 20
+        self.trigger_distance_threshold = 40
 
     def calculate_transform(self, base_waypoint, _start_distance, side_offset, orientation):
         # side offset, positive is right, negative is left
@@ -73,37 +78,6 @@ class DynamicObjectCrossing(BasicScenario):
         location.z = self._trigger_location.z + object_offset['z']
 
         return carla.Transform(location, carla.Rotation(yaw=orientation_yaw)), orientation_yaw
-
-    def create_transform(self, actor, base_waypoint, _start_distance, side_offset, orientation):
-
-        self._spawn_attempted = 0
-        while True:
-            transform, orientation_yaw = self.calculate_transform(base_waypoint, _start_distance, side_offset, orientation)
-
-            model = actor
-            spawn_point = transform
-            rolename = 'scenario',
-            color = None,
-            actor_category = "car",
-            safe_blueprint = False,
-
-            blueprint = CarlaDataProvider.create_blueprint(model, rolename, color, actor_category, safe_blueprint)
-
-            _spawn_point = carla.Transform(carla.Location(), spawn_point.rotation)
-            _spawn_point.location.x = spawn_point.location.x
-            _spawn_point.location.y = spawn_point.location.y
-            _spawn_point.location.z = spawn_point.location.z + 0.2
-            actor = CarlaDataProvider._world.try_spawn_actor(blueprint, _spawn_point)
-
-            if actor is not None:
-                break
-            else:
-                side_offset += 0.1
-                self._spawn_attempted += 1
-                if self._spawn_attempted >= self._number_of_attempts:
-                    raise RuntimeError('cannot spawn actor at this location')
-
-        return transform, orientation_yaw
 
     def find_side_lane(self, waypoint, direction='right'):
         reference_yaw = waypoint.transform.rotation.yaw
@@ -151,18 +125,56 @@ class DynamicObjectCrossing(BasicScenario):
 
 
     def initialize_actors(self):
-        _start_distance = self.start_distance
+        # parameters
+        # [actor_types: static, walker, car]
+        # [actor_names: static.prop.atm, walker.*, vehicle.nissan.patrol]
+        # [start_distances: 10, 15, 8]
+        # [lane_indices (0 is the most right): 0, 1, 0]
+
+        actor_types = self.parameters[0]
+        actor_names = self.parameters[1]
+        start_dists = self.parameters[2]
+        lane_indices = self.parameters[3]
+
+        assert len(actor_types) == len(actor_names) == len(start_dists) == len(lane_indices)
 
         lane_width = self._reference_waypoint.lane_width
-
         lane_waypoints = self.get_lanes(self._reference_waypoint)
 
-        transform_right, _ = self.calculate_transform(lane_waypoints[0], _start_distance, lane_width / 2, 270)
-        transform_left, _ = self.calculate_transform(lane_waypoints[-1], _start_distance, -lane_width / 2, 90)
+        transforms = []
+        for i in range(len(actor_types)):
+            actor_type = actor_types[i]
+            start_dist = start_dists[i]
+            lane_index = lane_indices[i]
+
+            if lane_index >= len(lane_waypoints):
+                raise Exception('cannot find lane at index: ', lane_index)
+
+            if actor_type == 'car':
+                side_offset = 0
+                orientation = 180
+
+            elif actor_type == 'human':
+                if lane_index < len(lane_waypoints) // 2:
+                    side_offset = lane_width / 2
+                    orientation = 270
+                else:
+                    side_offset = -lane_width / 2
+                    orientation = 90
+
+            elif actor_type == 'static':
+                side_offset = random.gauss(self._offset_mean, self._offset_std)
+                orientation = 0
+
+            else:
+                raise Exception('cannot find actor type: ', actor_type)
+
+            obj_transform, _ = self.calculate_transform(lane_waypoints[lane_index], start_dist, side_offset, orientation)
+            transforms.append(obj_transform)
 
         # pass results
-        self.actor_type_list = ["walker.*"] + ["walker.*"]
-        self.actor_transform_list = [transform_right] + [transform_left]
+        self.actor_type_list = actor_names
+        self.actor_transform_list = transforms
         self.other_actors = self.scenario_operation.initialize_vehicle_actors(self.actor_transform_list,
                                                                               self.actor_type_list)
         self.reference_actor = self.other_actors[0]  # used for triggering this scenario
@@ -172,10 +184,12 @@ class DynamicObjectCrossing(BasicScenario):
 
     def update_behavior(self, scenario_action):
         assert scenario_action is None, f'{self.name} should receive [None] action. A wrong scenario policy is used.'
-        # no update needed
 
-        self.scenario_operation.walker_go_straight(self._other_actor_target_velocity, 0)
-        self.scenario_operation.walker_go_straight(self._other_actor_target_velocity, 1)
-
+        actor_types = self.parameters[0]
+        for i, actor_type in enumerate(actor_types):
+            if actor_type == 'human':
+                self.scenario_operation.walker_go_straight(self._walker_velocity, i)
+            elif actor_type == 'car':
+                self.scenario_operation.go_straight(self._car_velocity, i)
     def check_stop_condition(self):
         return False

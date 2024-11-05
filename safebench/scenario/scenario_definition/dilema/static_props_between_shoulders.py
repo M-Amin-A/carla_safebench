@@ -12,6 +12,8 @@ Description:
 '''
 
 import math
+import random
+
 import carla
 
 from safebench.scenario.tools.scenario_operation import ScenarioOperation
@@ -151,18 +153,34 @@ class DynamicObjectCrossing(BasicScenario):
 
 
     def initialize_actors(self):
+        # params
         _start_distance = self.start_distance
+        object_params = ['static.prop.mailbox', 'static.prop.atm']
+        object_dists = [10, 12]
+        lane_indices = [0, 1]
+
+        offset_mean, offset_std = 0, 0.25
+
+        assert len(object_params) == len(object_dists) == len(lane_indices)
 
         lane_width = self._reference_waypoint.lane_width
-
         lane_waypoints = self.get_lanes(self._reference_waypoint)
 
-        transform_right, _ = self.calculate_transform(lane_waypoints[0], _start_distance, lane_width / 2, 270)
-        transform_left, _ = self.calculate_transform(lane_waypoints[-1], _start_distance, -lane_width / 2, 90)
+        if len(object_params) > len(lane_waypoints):
+            object_params = object_params[:len(lane_waypoints)]
+            object_dists = object_dists[:len(lane_waypoints)]
+            lane_indices = lane_indices[:len(lane_waypoints)]
+
+
+        transforms = []
+        for i in range(len(object_params)):
+            side_offset = random.gauss(offset_mean, offset_std)
+            obj_transform, _ = self.calculate_transform(lane_waypoints[lane_indices[i]], object_dists[i], side_offset, 0)
+            transforms.append(obj_transform)
 
         # pass results
-        self.actor_type_list = ["walker.*"] + ["walker.*"]
-        self.actor_transform_list = [transform_right] + [transform_left]
+        self.actor_type_list = object_params
+        self.actor_transform_list = transforms
         self.other_actors = self.scenario_operation.initialize_vehicle_actors(self.actor_transform_list,
                                                                               self.actor_type_list)
         self.reference_actor = self.other_actors[0]  # used for triggering this scenario
@@ -172,10 +190,6 @@ class DynamicObjectCrossing(BasicScenario):
 
     def update_behavior(self, scenario_action):
         assert scenario_action is None, f'{self.name} should receive [None] action. A wrong scenario policy is used.'
-        # no update needed
-
-        self.scenario_operation.walker_go_straight(self._other_actor_target_velocity, 0)
-        self.scenario_operation.walker_go_straight(self._other_actor_target_velocity, 1)
 
     def check_stop_condition(self):
         return False
