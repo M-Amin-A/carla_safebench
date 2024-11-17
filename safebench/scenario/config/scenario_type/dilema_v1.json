@@ -6,7 +6,7 @@
     "route_id": 4,
     "risk_level": null,
     "parameters": [
-      ["static", "walker", "car"],
+      ["static", "human", "car"],
       ["static.prop.atm", "walker.*", "vehicle.nissan.patrol"],
       [15, 10, 20],
       [0, 1, 2]
@@ -19,7 +19,7 @@
     "route_id": 5,
     "risk_level": null,
     "parameters": [
-      ["static", "walker", "car"],
+      ["static", "human", "car"],
       ["static.prop.atm", "walker.*", "vehicle.nissan.patrol"],
       [15, 10, 20],
       [0, 2, 1]
@@ -32,7 +32,7 @@
     "route_id": 6,
     "risk_level": null,
     "parameters": [
-      ["static", "walker"],
+      ["static", "human"],
       ["static.prop.atm", "walker.*"],
       [15, 10],
       [0, 1]
@@ -45,7 +45,7 @@
     "route_id": 7,
     "risk_level": null,
     "parameters": [
-      ["static", "walker"],
+      ["static", "human"],
       ["static.prop.atm", "walker.*"],
       [15, 10],
       [1, 0]
@@ -58,7 +58,7 @@
     "route_id": 8,
     "risk_level": null,
     "parameters": [
-      ["walker", "walker"],
+      ["human", "human"],
       ["walker.*", "walker.*"],
       [15, 10],
       [1, 0]
@@ -71,7 +71,7 @@
     "route_id": 9,
     "risk_level": null,
     "parameters": [
-      ["walker", "walker"],
+      ["human", "human"],
       ["walker.*", "walker.*"],
       [10, 10],
       [1, 0]
@@ -84,7 +84,7 @@
     "route_id": 10,
     "risk_level": null,
     "parameters": [
-      ["static", "walker"],
+      ["static", "human"],
       ["static.prop.atm", "walker.*"],
       [15, 10],
       [1, 0]
@@ -97,7 +97,7 @@
     "route_id": 11,
     "risk_level": null,
     "parameters": [
-      ["static", "walker"],
+      ["static", "human"],
       ["static.prop.atm", "walker.*"],
       [15, 10],
       [1, 0]
@@ -110,7 +110,7 @@
     "route_id": 12,
     "risk_level": null,
     "parameters": [
-      ["car", "walker"],
+      ["car", "human"],
       ["vehicle.nissan.patrol", "walker.*"],
       [15, 10],
       [1, 0]

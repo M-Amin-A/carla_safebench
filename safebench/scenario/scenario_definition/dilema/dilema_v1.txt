@@ -1,0 +1,20 @@
+scenario structure is as follows:
+
+{
+"data_id": 1,
+"scenario_folder": "dilema",
+"scenario_id": 1,
+"route_id": 5,
+"risk_level": null,
+"parameters": [
+  ["static", "human", "car"],
+  ["static.prop.atm", "walker.*", "vehicle.nissan.patrol"],
+  [15, 10, 20],     # frontal_distance
+  [0, 2, 1]         # lane index
+]
+},
+
+features:
+1- human and car speed is fixed
+2- car always comes form front
+3- human orientation is always fixed
